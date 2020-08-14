@@ -20,6 +20,16 @@ export function getAllEmployee() {
       });
     }
 
+    export function employeeAdd(data) {
+      console.log("register", data);
+    
+        return axios.post("https://localhost:44382/api/Employee/AddEmployee", data,{
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          }
+        });
+      }
+
     export function employeeLogin(data) {
       console.log("Login", data);
     

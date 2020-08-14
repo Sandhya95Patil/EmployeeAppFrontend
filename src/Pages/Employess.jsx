@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
-//import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 
@@ -39,6 +39,12 @@ class ShowAllEmp extends Component {
 
   }
 
+  OnAdd=()=>{
+    this.props.history.push({
+      pathname: '/AddEmployee',
+    });
+  }
+
   handleClick = (row) => {
     console.log(row);
     this.props.history.push({
@@ -62,6 +68,9 @@ class ShowAllEmp extends Component {
   render() {
     return (
       <div>
+        <div style={{marginLeft:'15%'}}>
+        <Button variant="contained" color="primary" style={{marginTop:'7%', marginRight:'20%'}} onClick={() => this.OnAdd()}><PersonAddIcon />AddEmployee</Button>
+        </div>
         <TableContainer component={Paper}>
           <h1 style={{ textAlign: 'center' }}>Employee Management System</h1>
           <Table
@@ -96,7 +105,6 @@ class ShowAllEmp extends Component {
                       variant="contained"
                       startIcon={<DeleteIcon />}
                     >
-                      Delete
                    </Button>
                   }
                   </StyledTableCell>

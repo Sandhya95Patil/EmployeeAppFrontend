@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import styled from 'styled-components';
-import { employeeRegister } from '../Service/Service';
+import { employeeAdd } from '../Service/Service';
 import validator from 'validator';
 import ErrorIcon from '@material-ui/icons/Error';
 
@@ -129,9 +129,9 @@ export default class Register extends React.Component {
         City: this.state.city,
       };
       console.log("data", data);
-      employeeRegister(data).then(
+      employeeAdd(data).then(
         res => console.log(res),
-        alert("Registration Successful..!")
+        alert("Employee Added Successful..!")
       )
         .catch(
           err => console.log(err),
@@ -148,7 +148,7 @@ export default class Register extends React.Component {
             <align-items></align-items>
           </Div>
           <Typography component="h1" variant="h5" align="center">
-            Sign up
+            Add Employee
         </Typography>
           <br></br>
           <br></br>
@@ -247,6 +247,52 @@ export default class Register extends React.Component {
                 </div>
               </Grid>
 
+              <Grid item xs={12} sm={6}>
+                <TextField
+
+                  onChange={this.OnSalaryChange}
+                  autoComplete="salary"
+                  name="salary"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="salary"
+                  label="Salary"
+                  autoFocus
+                  defaultValue={this.state.salary}
+                />
+                <div>
+                  {this.state.salaryvalid !== '' ? (<div style={{
+                    color: "red",
+                    justifyContent: 'flex-start',
+                    display: ' flex',
+                    paddingBottom: '5%'
+                  }}><ErrorIcon />{this.state.salaryvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                  }
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField onChange={this.OnCityChange}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="city"
+                  label="City"
+                  name="city"
+                  autoComplete="city"
+                  defaultValue={this.state.city}
+                />
+                <div>
+                  {this.state.cityvalid !== '' ? (<div style={{
+                    color: "red",
+                    justifyContent: 'flex-start',
+                    display: ' flex',
+                    paddingBottom: '5%'
+                  }}><ErrorIcon />{this.state.cityvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                  }
+                </div>
+              </Grid>
+
               <Grid item xs={12} >
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -261,15 +307,12 @@ export default class Register extends React.Component {
               // className={useStyles.submit}
               onClick={this.onSubmitData}
             >
-              Sign Up
+              Add
           </Button>
             <br></br>
             <Grid container justify="flex-end">
               <Grid item>
-                <br></br>
-                <Link href="./" variant="body2">
-                  Already have an account? Sign in
-              </Link>
+                
               </Grid>
             </Grid>
           </form>
