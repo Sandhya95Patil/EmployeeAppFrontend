@@ -9,13 +9,12 @@ import Add from "./Components/AddEmployee";
 function App() {
   return (
     <div className="App">
-
       <Router>
-        <Route path="/Dashboard" component={ShowAllEmp} />
-        <Route path="/SignUp" component={Register} />
-        <Route path="/Update" component={Update} />
-        <Route path="/AddEmployee" component={Add} />
         <Route path="/" exact={true} component={Login} />
+        <Route path="/signUp" component={Register} />
+        <Route path="/dashboard" component={ShowAllEmp} />
+        <Route path="/addEmployee" component={Add} />
+        <Route path="/update" component={Update} />
       </Router>
     </div>
   );

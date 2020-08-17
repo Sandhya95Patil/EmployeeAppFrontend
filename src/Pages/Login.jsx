@@ -26,11 +26,11 @@ export default class Register extends React.Component {
 
   onEmailChange = e => {
     if (validator.isEmpty(e.target.value)) {
-      this.setState({ emailvalid: "email is required" });
+      this.setState({ emailvalid: "Email Is required" });
 
     }
     else if (!validator.isEmail(e.target.value)) {
-      this.setState({ emailvalid: "Enter valid email-id " });
+      this.setState({ emailvalid: "Enter valid Email-Id " });
     }
     else {
       this.setState({ emailvalid: '' });
@@ -67,17 +67,17 @@ export default class Register extends React.Component {
         Password: this.state.password,
       };
       console.log("data", data);
-      employeeLogin(data).then(
+      const url='';
+      employeeLogin(url, data).then(
         res => console.log(res),
-        alert("Login Successful..!"),
         this.props.history.push({
-          pathname: '/Dashboard',
+          pathname: '/dashboard',
         })
       )
         .catch(
           err => console.log(err),
         );
-    }
+   }
   }
 
   render() {
@@ -89,7 +89,7 @@ export default class Register extends React.Component {
             <align-items>
             </align-items>
           </Div>
-          <Typography component="h1" variant="h5" align="center">
+          <Typography component="h1" variant="h5" align="center" style={{ color: 'darkblue' }}>
             Sign in
               </Typography>
           <br></br>
@@ -115,7 +115,7 @@ export default class Register extends React.Component {
                   justifyContent: 'flex-start',
                   display: ' flex',
                   paddingBottom: '5%'
-                }}><ErrorIcon />{this.state.emailvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                }}><ErrorIcon /><span style={{paddingLeft: '10px'}}></span>{this.state.emailvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
                 }
               </div>
             </Grid>
@@ -138,7 +138,8 @@ export default class Register extends React.Component {
                   justifyContent: 'flex-start',
                   display: ' flex',
                   paddingBottom: '5%'
-                }}><ErrorIcon />{this.state.passwordvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                }}>
+                  <ErrorIcon /><span style={{paddingLeft: '10px'}}></span>{this.state.passwordvalid}</div>) : (<span style={{ paddingBottom:'3%' }} />)
                 }
               </div>
             </Grid>
@@ -147,11 +148,15 @@ export default class Register extends React.Component {
               fullWidth
               variant="contained"
               color="primary"
-          //    onClick={this.onSubmitData}
               onClick={() => this.onSubmitData()}
             >
               Sign in
           </Button>
+            <br></br>
+            <br></br>
+            <Link href="/SignUp" variant="body2">
+              No Account Go To Sign Up Page!!!
+              </Link>
           </form>
         </div>
         <Box mt={5}>

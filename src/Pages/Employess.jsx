@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAllEmployee } from '../Service/Service';
+import { getAllEmployee, employeeDelete } from '../Service/Service';
 import Button from '@material-ui/core/Button';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,31 +12,23 @@ import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import DeleteIcon from '@material-ui/icons/Delete';
-import axios from 'axios';
-
-
+import Snackbar  from "../Components/Snackbar";
 class ShowAllEmp extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      dialogOpen: false,
-
       employees: [],
-
+      isActive: false,
     };
   }
+  snackbarRef = React.createRef();
 
   componentDidMount() {
-    console.log("before");
-    this.deleteEmployee();
 
     getAllEmployee().then(Response => {
       console.log("==============>", Response);
       this.setState({ employees: Response.data.data })
-
     });
-
   }
 
   OnAdd=()=>{
@@ -52,27 +44,25 @@ class ShowAllEmp extends Component {
       customNameData: row,
     });
   }
-  deleteEmployee(id) {
-    axios.delete(`https://localhost:44382/api/Employee/${id}`)
-      .then(res => {
-        console.log(res);
-        alert("Record Deleted Successfully..!")
-        window.location.reload();
-        console.log(res.data);
-      })
-      .catch(
-        err => console.log(err),
-      );
+
+  deleteEmployee=(id)=>{
+    employeeDelete(id).then(
+    response => console.log(response), 
+    this.snackbarRef.current.openSnackBar('Employee Delete Successfully.......'),
+    )
+    .catch(error=>console.log(error))
   }
 
   render() {
     return (
-      <div>
-        <div style={{marginLeft:'15%'}}>
-        <Button variant="contained" color="primary" style={{marginTop:'7%', marginRight:'20%'}} onClick={() => this.OnAdd()}><PersonAddIcon />AddEmployee</Button>
-        </div>
+      <div>  
         <TableContainer component={Paper}>
-          <h1 style={{ textAlign: 'center' }}>Employee Management System</h1>
+          <h1 style={{ textAlign: 'center', color:'darkblue'}}>Employee Management System</h1>
+          <br></br>
+          <div>
+    <Button variant="contained" color="primary" style={{marginLeft:'-50%'}} onClick={() => this.OnAdd()}><PersonAddIcon /><span style={{paddingLeft: '10px'}}></span>Add Employee</Button>
+        </div>
+          <br></br>
           <Table
             className={useStyles.table} aria-label="customized table" style={{ width: 1200, marginLeft:'10%' }}>
             <TableHead>
@@ -81,42 +71,48 @@ class ShowAllEmp extends Component {
                 <StyledTableCell align="center">First Name</StyledTableCell>
                 <StyledTableCell align="center">Last Name</StyledTableCell>
                 <StyledTableCell align="center">Email</StyledTableCell>
+                <StyledTableCell align="center">Salary</StyledTableCell>
+                <StyledTableCell align="center">City</StyledTableCell>
                 <StyledTableCell align="center">Edit</StyledTableCell>
                 <StyledTableCell align="center">Delete</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {this.state.employees.map((row) => (
-                <StyledTableRow key={row.name}>
+                <TableRow key={row.name}>
                   <StyledTableCell component="th" scope="row" align="center">
                     {row.id}
                   </StyledTableCell>
                   <StyledTableCell align="center">{row.firstName}</StyledTableCell>
                   <StyledTableCell align="center">{row.lastName}</StyledTableCell>
                   <StyledTableCell align="center">{row.email}</StyledTableCell>
+                  <StyledTableCell align="center">{row.salary}</StyledTableCell>
+                  <StyledTableCell align="center">{row.city}</StyledTableCell>
                   <StyledTableCell align="center">{
-                    <Button variant="contained" color="primary" onClick={() => this.handleClick(row)}>
+                    <Button onClick={() => this.handleClick(row)}>
                       <EditIcon > </EditIcon>
                     </Button>}
                   </StyledTableCell>
                   <StyledTableCell align="center">{
-                    <Button style={{ color: '#fff', backgroundColor: '#3f51b5', textTransform: 'none' }}
+                    <Button 
                       onClick={() => this.deleteEmployee(row.id)}
-                      variant="contained"
                       startIcon={<DeleteIcon />}
                     >
                    </Button>
                   }
                   </StyledTableCell>
-                </StyledTableRow>
+                </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <Snackbar ref={this.snackbarRef} />
+
       </div>
     );
   }
 }
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: '#3f51b5',
@@ -127,25 +123,14 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-
 const useStyles = makeStyles((theme) => ({
   display: 'flex',
   table: {
-
     minWidth: 700,
   },
   margin: {
     margin: theme.spacing(1),
   },
 }));
-
 
 export default ShowAllEmp;

@@ -1,55 +1,30 @@
-import axios from "axios";
+import Axios from "../Service/axiosService";
+
+const axiosService = new Axios();
 
 export function getAllEmployee() {
-  console.log("############");
+  return axiosService.get()
+}
 
-    return axios.get("https://localhost:44382/api/Employee", {
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      }
-    });
-  }             
-      
-  export function employeeRegister(data) {
-    console.log("register", data);
-  
-      return axios.post("https://localhost:44382/api/Employee/SignUp", data,{
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        }
-      });
-    }
+export function employeeRegister(url, data) {
+  return axiosService.post("SignUp", data);
+}
 
-    export function employeeAdd(data) {
-      console.log("register", data);
-    
-        return axios.post("https://localhost:44382/api/Employee/AddEmployee", data,{
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          }
-        });
-      }
+export function employeeAdd(url, data) {
+  return axiosService.post("AddEmployee", data)
+}
 
-    export function employeeLogin(data) {
-      console.log("Login", data);
-    
-        return axios.post("https://localhost:44382/api/Employee/Login", data,{
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          }
-        });
-      }
+export function employeeLogin(url, data) {
+  console.log("Login", data);
 
-      export function employeeUpdate(id,data) {
-        console.log("update", id);
-        console.log("update data", data);
+  return axiosService.post("Login", data)
+}
 
-      
-          return axios.put(`https://localho   st:44382/api/Employee/${id}`,data,{
-            headers: {
-              "Content-Type": "application/json; charset=utf-8",
-            }
-          });
-        }
-  
-      
+export function employeeUpdate(id, data) {
+  return axiosService.put(`${id}`, data)
+}
+
+export function employeeDelete(id){
+  return axiosService.delete(`${id}`)
+}
+

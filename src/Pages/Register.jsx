@@ -15,8 +15,9 @@ import { employeeRegister } from '../Service/Service';
 import validator from 'validator';
 import ErrorIcon from '@material-ui/icons/Error';
 
-export default class Register extends React.Component {
+const url='';
 
+export default class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,83 +25,57 @@ export default class Register extends React.Component {
       lastName: '',
       email: '',
       password: '',
-      salary: 0,
-      city: '',
       firstNamevalid: '',
       lastNamevalid: '',
       emailvalid: '',
       passwordvalid: '',
-      salaryvalid: '',
-      cityvalid: ''
     }
   }
 
-
   onFirstNameChange = e => {
-
     if (validator.isEmpty(e.target.value)) {
-      this.setState({ firstNamevalid: "first name is Requried" });
+        this.setState({ firstNamevalid: "First Name Is Requried" });
 
     } else {
-      this.setState({ firstNamevalid: '' });
-    }
-    this.setState({ firstName: e.target.value });
-
-  };
-
-  onLastNameChange = e => {
-    if (validator.isEmpty(e.target.value)) {
-      this.setState({ lastNamevalid: "last name is Requried" });
-
-    } else {
-      this.setState({ lastNamevalid: '' });
+        this.setState({ firstNamevalid: '' });
     }
     this.setState({
-      lastName: e.target.value
+        firstName: e.target.value
     });
-    console.log(this.state.lastName)
+};
 
-  };
-
-  onEmailChange = e => {
+onLastNameChange = e => {
     if (validator.isEmpty(e.target.value)) {
-      this.setState({ emailvalid: "email is required" });
+        this.setState({ lastNamevalid: "Last Name Is Requried" });
+    } else {
+        this.setState({ lastNamevalid: '' });
+    }
+    this.setState({
+        lastName: e.target.value
+    });
+};
+onEmailChange = e => {
+    if (validator.isEmpty(e.target.value)) {
+        this.setState({ emailvalid: "Email Is required" });
 
     }
     else if (!validator.isEmail(e.target.value)) {
-      this.setState({ emailvalid: "Enter valid email-id " });
+        this.setState({ emailvalid: "Enter valid Email-Id " });
     }
     else {
-      this.setState({ emailvalid: '' });
+        this.setState({ emailvalid: '' });
     }
 
     this.setState({ email: e.target.value });
-
-  };
-  onPasswordChange = e => {
-    if (validator.isEmpty(e.target.value)) {
-      this.setState({ passwordvalid: "Password is Requried" });
-
-    } else {
-      this.setState({ passwordvalid: '' });
-    }
-    this.setState({
-      password: e.target.value
-    });
-  };
-
-  OnSalaryChange = e => {
-    this.setState({
-      salary: e.target.value
-    });
-    console.log(this.state.salary)
-  };
-
-  OnCityChange = e => {
-    this.setState({
-      city: e.target.value
-    });
-  };
+};
+onPasswordChange=e=>{
+  if (validator.isEmpty(e.target.value)) {
+    this.setState({ passwordvalid: "Password Is required" });
+}
+else{
+  this.setState({password:e.target.value});
+}
+}
 
   onSubmitData = () => {
     if (validator.isEmpty(this.state.firstName)) {
@@ -125,13 +100,14 @@ export default class Register extends React.Component {
         LastName: this.state.lastName,
         Email: this.state.email,
         Password: this.state.password,
-        Salary: this.state.salary,
-        City: this.state.city,
       };
       console.log("data", data);
-      employeeRegister(data).then(
+      employeeRegister(url, data).then(
         res => console.log(res),
-        alert("Registration Successful..!")
+        alert("Registration Successful..!"),
+        this.props.history.push({
+          pathname:"/"
+        })
       )
         .catch(
           err => console.log(err),
@@ -147,7 +123,7 @@ export default class Register extends React.Component {
           <Div>
             <align-items></align-items>
           </Div>
-          <Typography component="h1" variant="h5" align="center">
+          <Typography component="h1" variant="h5" align="center" style={{ color: 'darkblue' }}>
             Sign up
         </Typography>
           <br></br>
@@ -171,9 +147,10 @@ export default class Register extends React.Component {
                   {this.state.firstNamevalid !== '' ? (<div style={{
                     color: "red",
                     justifyContent: 'flex-start',
-                    display: ' flex',
-                    paddingBottom: '5%'
-                  }}><ErrorIcon />{this.state.firstNamevalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                    display: 'flex',
+                    paddingBottom: '5%',
+                    paddingTop:'5%'
+                  }}><ErrorIcon /><span style={{marginLeft:'10px'}}></span>{this.state.firstNamevalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
                   }
                 </div>
               </Grid>
@@ -193,8 +170,9 @@ export default class Register extends React.Component {
                     color: "red",
                     justifyContent: 'flex-start',
                     display: ' flex',
-                    paddingBottom: '5%'
-                  }}><ErrorIcon />{this.state.lastNamevalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                    paddingBottom: '5%',
+                    paddingTop:'5px'
+                  }}><ErrorIcon /><span style={{marginLeft:'10px'}}></span>{this.state.lastNamevalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
                   }
 
                 </div>
@@ -216,11 +194,11 @@ export default class Register extends React.Component {
                 <div>
                   {this.state.emailvalid !== '' ? (<div style={{
                     color: "red",
-
                     justifyContent: 'flex-start',
                     display: ' flex',
-                    paddingBottom: '5%'
-                  }}><ErrorIcon />{this.state.emailvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                    paddingBottom: '5%',
+                    paddingTop:'5%'
+                  }}><ErrorIcon /><span style={{marginLeft:'10px'}}></span>{this.state.emailvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
                   }
                 </div>
               </Grid>
@@ -240,13 +218,13 @@ export default class Register extends React.Component {
                   {this.state.passwordvalid !== '' ? (<div style={{
                     color: "red",
                     justifyContent: 'flex-start',
-                    display: ' flex',
-                    paddingBottom: '5%'
-                  }}><ErrorIcon />{this.state.passwordvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
+                    display: 'flex',
+                    paddingBottom: '5%',
+                    paddingTop:'5px'
+                  }}><ErrorIcon /><span style={{marginLeft:'10px'}}></span>{this.state.passwordvalid}</div>) : (<span style={{ paddingBottom: '3%' }} />)
                   }
                 </div>
               </Grid>
-
               <Grid item xs={12} >
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -258,20 +236,15 @@ export default class Register extends React.Component {
               fullWidth
               variant="contained"
               color="primary"
-              // className={useStyles.submit}
               onClick={this.onSubmitData}
             >
               Sign Up
           </Button>
             <br></br>
-            <Grid container justify="flex-end">
-              <Grid item>
                 <br></br>
                 <Link href="./" variant="body2">
                   Already have an account? Sign in
               </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
         <Box mt={5}>
